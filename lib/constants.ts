@@ -1,7 +1,9 @@
+import {routes} from "@/lib/routes";
+
 export const NAV_ITEMS = [
-	{href: '/', label: 'Dashboard'},
-	{href: '/search', label: 'Search'},
-	// { href: '/watchlist', label: 'Watchlist' },
+	{href: routes.homePath, label: 'Dashboard'},
+	{href: routes.searchPath, label: 'Search'},
+	{href: routes.watchListPath, label: 'Watchlist'},
 ];
 
 // Sign-up form select options

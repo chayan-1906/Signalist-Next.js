@@ -14,10 +14,15 @@ declare global {
 		preferredIndustry: string;
 	};
 
+	type Country = {
+		value: string;
+		label: string;
+	};
+
 	type CountrySelectProps = {
 		name: string;
 		label: string;
-		control: Control;
+		control: Control<any>;
 		error?: FieldError;
 		required?: boolean;
 	};

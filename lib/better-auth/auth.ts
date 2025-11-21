@@ -37,3 +37,5 @@ const getAuth = async () => {
 }
 
 export {getAuth};
+
+export const auth = await getAuth();

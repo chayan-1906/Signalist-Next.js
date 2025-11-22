@@ -1,8 +1,18 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import {headers} from "next/headers";
+import {redirect} from "next/navigation";
+import {routes} from "@/lib/routes";
+import {auth} from "@/lib/better-auth/auth";
 
-function AuthLayout({children}: { children: React.ReactNode }) {
+async function AuthLayout({children}: { children: React.ReactNode }) {
+	const session = await auth.api.getSession({headers: await headers()});
+
+	if (session?.user) {
+		redirect(routes.homePath);
+	}
+
 	return (
 		<main className={'auth-layout'}>
 			<section className={'auth-left-section scrollbar-hide-default'}>

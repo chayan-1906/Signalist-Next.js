@@ -4,7 +4,7 @@ import {routes} from "@/lib/routes";
 import {NavItems} from "@/components/NavItems";
 import {UserDropdown} from "@/components/UserDropdown";
 
-function Header() {
+function Header({user}: { user: User }) {
 	return (
 		<header className={'sticky top-0 header'}>
 			<div className={'container header-wrapper'}>
@@ -17,8 +17,9 @@ function Header() {
 				<nav className={'hidden sm:block'}>
 					<NavItems/>
 				</nav>
-				{/* User Dropdown */}
-				<UserDropdown/>
+
+				{/** User Dropdown */}
+				<UserDropdown user={user}/>
 			</div>
 		</header>
 	);

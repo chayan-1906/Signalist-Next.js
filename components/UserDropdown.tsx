@@ -2,29 +2,33 @@
 
 import {LogOut} from "lucide-react";
 import {useRouter} from "next/navigation";
+import {cn} from "@/lib/utils";
 import {routes} from "@/lib/routes";
 import {Button} from "@/components/ui/button";
 import {NavItems} from "@/components/NavItems";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
-function UserDropdown() {
+function UserDropdown({user}: { user: User }) {
 	const router = useRouter();
 
-	const handleSignOut = async () => router.push(routes.signInPath);
+	const randomBgColors = [
+		'bg-yellow-500 text-pink-800',
+		'bg-emerald-300 text-emerald-800',
+		'bg-purple-300 text-purple-800',
+		'bg-slate-300 text-slate-800',
+		'bg-pink-300 text-pink-800',
+	];
 
-	const user = {
-		name: 'John',
-		email: 'john@gmail.com',
-	};
+	const handleSignOut = async () => router.push(routes.signInPath);
 
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant={'ghost'} className={'flex items-center gap-3 text-gray-400 hover:text-yellow-500'}>
+				<Button variant={'ghost'} className={'flex items-center gap-3'}>
 					<Avatar className={'size-8'}>
-						<AvatarImage src={'https://avatars.githubusercontent.com/u/124599'}/>
-						<AvatarFallback className={'bg-yellow-500 text-yellow-900 text-sm font-bold'}>{user.name[0]}</AvatarFallback>
+						{/*<AvatarImage src={'https://avatars.githubusercontent.com/u/124599'}/>*/}
+						<AvatarFallback className={cn('text-sm font-bold', randomBgColors[Math.floor(Math.random() * randomBgColors.length)])}>{user.name[0]}</AvatarFallback>
 					</Avatar>
 					<div className={'hidden md:flex flex-col items-start'}>
 						<span className={'text-base font-medium text-gray-400'}>{user.name}</span>

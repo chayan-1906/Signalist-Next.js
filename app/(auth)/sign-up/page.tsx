@@ -1,5 +1,6 @@
 'use client';
 
+import {toast} from "sonner";
 import {useForm} from "react-hook-form";
 import {routes} from "@/lib/routes";
 import {useRouter} from "next/navigation";
@@ -10,7 +11,6 @@ import {SelectField} from "@/components/forms/SelectField";
 import {signUpWithEmail} from "@/lib/better-auth/auth.actions";
 import {CountrySelectField} from "@/components/forms/CountrySelectField";
 import {INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS} from "@/lib/constants";
-import {toast} from "sonner";
 
 function SignUpPage() {
 	const router = useRouter();

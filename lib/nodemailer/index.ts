@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import {NODEMAILER_EMAIL, NODEMAILER_PASSWORD} from "@/lib/config";
+import {BASE_URL, NODEMAILER_EMAIL, NODEMAILER_PASSWORD} from "@/lib/config";
 import {WELCOME_EMAIL_TEMPLATE} from "@/lib/nodemailer/template";
 
 const transporter = nodemailer.createTransport({
@@ -13,7 +13,8 @@ const transporter = nodemailer.createTransport({
 const sendWelcomeEmail = async ({email, name, intro}: WelcomeEmailData) => {
 	const htmlTemplate = WELCOME_EMAIL_TEMPLATE
 		.replace('{{name}}', name)
-		.replace('{{intro}}', intro);
+		.replace('{{intro}}', intro)
+		.replace(/{{baseUrl}}/g, BASE_URL || 'https://localhost:3000');
 
 	const mailOptions = {
 		from: '"Signalist" <chayan19062000@gmail.com>',

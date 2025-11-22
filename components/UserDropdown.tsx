@@ -6,6 +6,7 @@ import {cn} from "@/lib/utils";
 import {routes} from "@/lib/routes";
 import {Button} from "@/components/ui/button";
 import {NavItems} from "@/components/NavItems";
+import {signOut} from "@/lib/better-auth/auth.actions";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
@@ -20,7 +21,10 @@ function UserDropdown({user}: { user: User }) {
 		'bg-pink-300 text-pink-800',
 	];
 
-	const handleSignOut = async () => router.push(routes.signInPath);
+	const handleSignOut = async () => {
+		await signOut();
+		router.push(routes.signInPath);
+	}
 
 	return (
 		<DropdownMenu>

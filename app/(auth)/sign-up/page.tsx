@@ -8,7 +8,7 @@ import {Button} from "@/components/ui/button";
 import {FooterLink} from "@/components/forms/FooterLink";
 import {InputField} from "@/components/forms/inputField";
 import {SelectField} from "@/components/forms/SelectField";
-import {signUpWithEmail} from "@/lib/better-auth/auth.actions";
+import {signUpWithEmail} from "@/lib/actions/auth.actions";
 import {CountrySelectField} from "@/components/forms/CountrySelectField";
 import {INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS} from "@/lib/constants";
 

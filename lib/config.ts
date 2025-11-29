@@ -9,3 +9,6 @@ export const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 export const NODEMAILER_EMAIL = process.env.NODEMAILER_EMAIL;
 export const NODEMAILER_PASSWORD = process.env.NODEMAILER_PASSWORD;
+
+export const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1';
+export const FINNHUB_API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;

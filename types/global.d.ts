@@ -89,6 +89,13 @@ declare global {
 		isInWatchlist: boolean;
 	};
 
+	type FinnhubFetchOptions = {
+		cache?: RequestCache;
+		next?: {
+			revalidate?: number;
+		};
+	};
+
 	type FinnhubSearchResult = {
 		symbol: string;
 		description: string;

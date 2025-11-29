@@ -6,7 +6,7 @@ import {cn} from "@/lib/utils";
 import {routes} from "@/lib/routes";
 import {Button} from "@/components/ui/button";
 import {NavItems} from "@/components/NavItems";
-import {signOut} from "@/lib/better-auth/auth.actions";
+import {signOut} from "@/lib/actions/auth.actions";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 

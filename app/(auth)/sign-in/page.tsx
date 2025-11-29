@@ -7,7 +7,7 @@ import {routes} from "@/lib/routes";
 import {Button} from "@/components/ui/button";
 import {FooterLink} from "@/components/forms/FooterLink";
 import {InputField} from "@/components/forms/inputField";
-import {signInWithEmail} from "@/lib/better-auth/auth.actions";
+import {signInWithEmail} from "@/lib/actions/auth.actions";
 
 function SignInPage() {
 	const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<SignInFormData>({

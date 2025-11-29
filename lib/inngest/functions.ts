@@ -1,9 +1,10 @@
 import {inngest} from "@/lib/inngest/client";
-import {sendWelcomeEmail} from "@/lib/nodemailer";
+import {getFormattedTodayDate} from "@/lib/utils";
 import {getNews} from "@/lib/actions/finnhub.actions";
 import {getAllUsersForNewsEmail} from "@/lib/actions/user.actions";
-import {PERSONALIZED_WELCOME_EMAIL_PROMPT} from "@/lib/inngest/prompts";
+import {sendNewsSummaryEmail, sendWelcomeEmail} from "@/lib/nodemailer";
 import {getWatchlistSymbolsByEmail} from "@/lib/actions/watchlist.actions";
+import {NEWS_SUMMARY_EMAIL_PROMPT, PERSONALIZED_WELCOME_EMAIL_PROMPT} from "@/lib/inngest/prompts";
 
 const sendSignUpEmail = inngest.createFunction(
 	{
@@ -59,18 +60,17 @@ const sendDailyNewsSummary = inngest.createFunction(
 	{
 		id: 'daily-news-summary',
 	},
-	[
-		{
-			event: 'app/send.daily.news',
-		},
-		{
-			cron: '0 12 * * *',
-		},
-	],
+	{
+		cron: '0 12 * * *',  // Production: daily at 12 PM UTC
+		// cron: '* * * * *',      // Testing: every minute
+	},
 	async ({step}) => {
 		// Step #1: Get all users for news delivery
 		const users = await step.run('get-all-users', getAllUsersForNewsEmail);
+		console.log(`[sendDailyNewsSummary] Found ${users?.length || 0} users`);
+
 		if (!users || users.length === 0) {
+			console.log('[sendDailyNewsSummary] No users found, exiting');
 			return {
 				success: false,
 				message: 'No users found for news email',
@@ -104,20 +104,50 @@ const sendDailyNewsSummary = inngest.createFunction(
 		});
 
 		// Step #3: Summarize news via AI for each user (placeholder)
-		await step.run('summarize-news-with-ai', async () => {
-			// TODO: Implement AI summarization for each user's news
-			console.log(`Summarizing news for ${newsPerUser.length} users`);
-			return {summarized: true};
-		});
+		const userNewsSummaries: { user: User; newsContent: string | null }[] = [];
+		for (const {user, articles} of newsPerUser) {
+			try {
+				const prompt = NEWS_SUMMARY_EMAIL_PROMPT.replace('{{newsData}}', JSON.stringify(articles, null, 2));
+				const response = await step.ai.infer(`summarize-news-${user.email}`, {
+					model: step.ai.models.gemini({model: 'gemini-2.5-flash-preview-09-2025'}),
+					body: {
+						contents: [
+							{
+								role: 'user',
+								parts: [
+									{
+										text: prompt,
+									},
+								],
+							},
+						],
+					},
+				});
+
+				const part = response.candidates?.[0]?.content?.parts?.[0];
+				const newsContent = (part && 'text' in part ? part.text : null) || 'No market news';
+
+				userNewsSummaries.push({user, newsContent});
+			} catch (error: any) {
+				console.error('Failed to summarize news for:', user.email);
+				userNewsSummaries.push({user, newsContent: null});
+			}
+		}
 
 		// Step #4: Send emails (placeholder)
 		await step.run('send-news-emails', async () => {
-			// TODO: Implement email sending for each user
-			console.log(`Sending news emails to ${newsPerUser.length} users`);
-			return {sent: true};
+			await Promise.all(
+				userNewsSummaries.map(async ({user, newsContent}) => {
+					if (!newsContent) {
+						return false;
+					}
+
+					return await sendNewsSummaryEmail({email: user.email, date: getFormattedTodayDate(), newsContent});
+				}),
+			);
 		});
 
-		return {success: true};
+		return {success: true, message: 'Daily news summary emails sent successfully'};
 	}
 );
 

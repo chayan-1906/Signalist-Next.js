@@ -1,5 +1,7 @@
 'use server';
 
+import {headers} from 'next/headers';
+import {auth} from '@/lib/better-auth/auth';
 import {connectToDatabase} from '@/database/mongoose';
 import Watchlist from '@/database/models/watchlist.model';
 
@@ -37,4 +39,63 @@ const getWatchlistSymbolsByEmail = async (email: string): Promise<string[]> => {
 	}
 }
 
-export {getWatchlistSymbolsByEmail};
+const addToWatchlist = async (symbol: string, company: string): Promise<{ success: boolean; message: string }> => {
+	try {
+		const session = await auth.api.getSession({headers: await headers()});
+
+		if (!session?.user) {
+			return {success: false, message: 'Unauthorized'};
+		}
+
+		await connectToDatabase();
+
+		const existingItem = await Watchlist.findOne({
+			userId: session.user.id,
+			symbol: symbol.toUpperCase(),
+		});
+
+		if (existingItem) {
+			return {success: false, message: 'Already in watchlist'};
+		}
+
+		await Watchlist.create({
+			userId: session.user.id,
+			symbol: symbol.toUpperCase(),
+			company,
+			addedAt: new Date(),
+		});
+
+		return {success: true, message: 'Added to watchlist'};
+	} catch (error: unknown) {
+		console.error('Error adding to watchlist:', error);
+		return {success: false, message: 'Failed to add to watchlist'};
+	}
+}
+
+const removeFromWatchlist = async (symbol: string): Promise<{ success: boolean; message: string }> => {
+	try {
+		const session = await auth.api.getSession({headers: await headers()});
+
+		if (!session?.user) {
+			return {success: false, message: 'Unauthorized'};
+		}
+
+		await connectToDatabase();
+
+		const result = await Watchlist.deleteOne({
+			userId: session.user.id,
+			symbol: symbol.toUpperCase(),
+		});
+
+		if (result.deletedCount === 0) {
+			return {success: false, message: 'Not found in watchlist'};
+		}
+
+		return {success: true, message: 'Removed from watchlist'};
+	} catch (error: unknown) {
+		console.error('Error removing from watchlist:', error);
+		return {success: false, message: 'Failed to remove from watchlist'};
+	}
+}
+
+export {getWatchlistSymbolsByEmail, addToWatchlist, removeFromWatchlist};

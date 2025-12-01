@@ -6,6 +6,8 @@ const routes = {
 
 	searchPath: '/search',
 	watchListPath: '/watchlist',
+
+	stocksDetailsPath: (symbol: string) => `/stocks/${symbol}`,
 };
 
 export {routes};

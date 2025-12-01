@@ -7,10 +7,10 @@ import {routes} from "@/lib/routes";
 import {Button} from "@/components/ui/button";
 import {NavItems} from "@/components/NavItems";
 import {signOut} from "@/lib/actions/auth.actions";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {Avatar, AvatarFallback} from "@/components/ui/avatar";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
-function UserDropdown({user}: { user: User }) {
+function UserDropdown({user, initialStocks}: { user: User; initialStocks: StockWithWatchlistStatus[] }) {
 	const router = useRouter();
 
 	const randomBgColors = [
@@ -20,6 +20,8 @@ function UserDropdown({user}: { user: User }) {
 		'bg-slate-300 text-slate-800',
 		'bg-pink-300 text-pink-800',
 	];
+
+	const avatar = randomBgColors[Math.floor(Math.random() * randomBgColors.length)];
 
 	const handleSignOut = async () => {
 		await signOut();
@@ -32,7 +34,7 @@ function UserDropdown({user}: { user: User }) {
 				<Button variant={'ghost'} className={'flex items-center gap-3'}>
 					<Avatar className={'size-8'}>
 						{/*<AvatarImage src={'https://avatars.githubusercontent.com/u/124599'}/>*/}
-						<AvatarFallback className={cn('text-sm font-bold', randomBgColors[Math.floor(Math.random() * randomBgColors.length)])}>{user.name[0]}</AvatarFallback>
+						<AvatarFallback className={cn('text-sm font-bold', avatar)}>{user.name[0]}</AvatarFallback>
 					</Avatar>
 					<div className={'hidden md:flex flex-col items-start'}>
 						<span className={'text-base font-medium text-gray-400'}>{user.name}</span>
@@ -43,8 +45,8 @@ function UserDropdown({user}: { user: User }) {
 				<DropdownMenuLabel>
 					<div className={'flex relative items-center gap-3 py-2'}>
 						<Avatar className={'size-10'}>
-							<AvatarImage src={'https://avatars.githubusercontent.com/u/124599'}/>
-							<AvatarFallback className={'bg-yellow-500 text-yellow-900 text-sm font-bold'}>{user.name[0]}</AvatarFallback>
+							{/*<AvatarImage src={'https://avatars.githubusercontent.com/u/124599'}/>*/}
+							<AvatarFallback className={cn('text-sm font-bold', avatar)}>{user.name[0]}</AvatarFallback>
 						</Avatar>
 						<div className={'flex flex-col'}>
 							<span className={'text-base font-medium text-gray-400'}>{user.name}</span>
@@ -59,7 +61,7 @@ function UserDropdown({user}: { user: User }) {
 				</DropdownMenuItem>
 				<DropdownMenuSeparator className={'hidden sm:block bg-gray-600'}/>
 				<nav className={'sm:hidden'}>
-					<NavItems/>
+					<NavItems initialStocks={initialStocks}/>
 				</nav>
 			</DropdownMenuContent>
 		</DropdownMenu>

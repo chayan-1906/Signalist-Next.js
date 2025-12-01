@@ -1,25 +1,51 @@
 'use client';
 
 import Link from "next/link";
-import {Loader2, TrendingUp} from "lucide-react";
+import {Loader2, Star, TrendingUp} from "lucide-react";
+import React, {useEffect, useState} from 'react';
 import {routes} from "@/lib/routes";
-import {useEffect, useState} from 'react';
 import {Button} from "@/components/ui/button";
-import {CommandDialog, CommandEmpty, CommandInput, CommandList,} from '@/components/ui/command';
+import {useDebounce} from "@/hooks/useDebounce";
+import {searchStocks} from "@/lib/actions/finnhub.actions";
+import {CommandDialog, CommandEmpty, CommandInput, CommandList} from '@/components/ui/command';
 
 function SearchCommand({renderAs = 'button', label = 'Add Stock', initialStocks}: SearchCommandProps) {
 	const [open, setOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [loading, setLoading] = useState(false);
-	const [stocks, setStocks] = useState<Stock[]>(initialStocks);
+	const [stocks, setStocks] = useState<StockWithWatchlistStatus[]>(initialStocks);
 
 	const isSearchMode: boolean = !!searchTerm.trim();
 	const displayStocks = isSearchMode ? stocks : stocks?.slice(0, 10);
 
+	const handleSearch = async () => {
+		if (!isSearchMode) {
+			return setStocks(initialStocks);
+		}
+
+		setLoading(true);
+		try {
+			const results = await searchStocks(searchTerm.trim());
+			setStocks(results);
+		} catch (error: any) {
+			setStocks([]);
+		} finally {
+			setLoading(false);
+		}
+	}
+
+	const debouncedSearch = useDebounce(handleSearch, 300);
+
 	const handleSelectStock = (symbol: string) => {
 		console.log(`Selected stock: ${symbol}`);
 		setOpen(false);
+		setSearchTerm('');
+		setStocks(initialStocks);
 	}
+
+	useEffect(() => {
+		debouncedSearch();
+	}, [searchTerm]);
 
 	useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -48,7 +74,7 @@ function SearchCommand({renderAs = 'button', label = 'Add Stock', initialStocks}
 				<CommandList className={'search-list'}>
 					{loading ? (
 						<CommandEmpty className={'search-list-empty'}>Loading stocks...</CommandEmpty>
-					) : displayStocks.length === 0 ? (
+					) : displayStocks?.length === 0 ? (
 						<div className={'search-list-indicator'}>
 							{isSearchMode ? 'No results found' : 'No stocks available'}
 						</div>
@@ -58,14 +84,15 @@ function SearchCommand({renderAs = 'button', label = 'Add Stock', initialStocks}
 								{isSearchMode ? 'Search results' : 'Popular stocks'}
 								({displayStocks?.length || 0})
 							</div>
-							{displayStocks?.map((stock: Stock, index: number) => (
+							{displayStocks?.map((stock: Stock): React.ReactNode => (
 								<li key={stock.symbol} className={'search-item'}>
-									<Link href={routes.stocksDetailsPath(stock.symbol)} onClick={handleSelectStock} className={'search-item-link'}>
+									<Link href={routes.stocksDetailsPath(stock.symbol)} onClick={() => handleSelectStock(stock.symbol)} className={'search-item-link'}>
 										<TrendingUp className={'size-4 text-gray-500'}/>
 										<div className={'flex-1'}>
 											<div className={'search-item-name'}>{stock.name}</div>
 											<div className={'text-sm text-gray-500'}>{stock.symbol} | {stock.exchange} | {stock.type}</div>
 										</div>
+										<Star/>
 									</Link>
 								</li>
 							))}

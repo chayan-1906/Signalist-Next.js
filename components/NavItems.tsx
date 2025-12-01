@@ -6,7 +6,7 @@ import {routes} from "@/lib/routes";
 import {NAV_ITEMS} from "@/lib/constants";
 import {SearchCommand} from "@/components/SearchCommand";
 
-function NavItems() {
+function NavItems({initialStocks}: { initialStocks: StockWithWatchlistStatus[] }) {
 	const pathname = usePathname();
 
 	const isActive = (path: string) => {
@@ -15,32 +15,20 @@ function NavItems() {
 		return pathname.startsWith(path);
 	}
 
-	const sampleStocks: StockWithWatchlistStatus[] = [
-		{
-			symbol: 'TST',
-			name: 'TEST',
-			exchange: 'NASDAQ',
-			type: 'TYPE',
-			isInWatchlist: false,
-		},
-	];
-
 	return (
 		<ul className={'flex flex-col sm:flex-row p-2 gap-3 sm:gap-10 font-medium'}>
 			{NAV_ITEMS.map(({href, label}) => {
 				if (label === 'Search') {
 					return (
 						<li key={'search-trigger'}>
-							<SearchCommand renderAs={'text'} label={'Search'} initialStocks={sampleStocks}/>
+							<SearchCommand renderAs={'text'} label={'Search'} initialStocks={initialStocks}/>
 						</li>
 					);
 				}
 
 				return (
 					<li key={href}>
-						<Link href={href} className={`hover:text-yellow-500 transition-colors ${isActive(href) ? 'text-gray-100' : ''}`}>
-							{label}
-						</Link>
+						<Link href={href} className={`hover:text-yellow-500 transition-colors ${isActive(href) ? 'text-gray-100' : ''}`}>{label}</Link>
 					</li>
 				);
 			})}

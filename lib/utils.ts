@@ -118,10 +118,14 @@ const formatDateToday = new Date().toLocaleDateString('en-US', {
 	timeZone: 'UTC',
 });
 
-
-const getAlertText = (alert: Alert) => {
-	const condition = alert.alertType === 'upper' ? '>' : '<';
-	return `Price ${condition} ${formatPrice(alert.threshold)}`;
+const formatMarketCap = (marketCap: number): string => {
+	if (marketCap >= 1000) {
+		return `$${(marketCap / 1000).toFixed(2)}T`;
+	} else if (marketCap >= 1) {
+		return `$${marketCap.toFixed(2)}B`;
+	} else {
+		return `$${(marketCap * 1000).toFixed(2)}M`;
+	}
 }
 
 const getFormattedTodayDate = () => new Date().toLocaleDateString('en-US', {
@@ -146,6 +150,6 @@ export {
 	formatChangePercent,
 	getChangeColorClass,
 	formatDateToday,
-	getAlertText,
+	formatMarketCap,
 	getFormattedTodayDate,
 };

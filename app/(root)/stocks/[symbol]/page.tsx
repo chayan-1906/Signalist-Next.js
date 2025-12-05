@@ -32,6 +32,10 @@ export async function generateMetadata({params}: StockDetailsPageProps): Promise
 				title: `${symbolUpper} - ${companyName} Stock Analysis`,
 				description: `Real-time stock data and analysis for ${companyName}`,
 			},
+			twitter: {
+				card: 'summary_large_image',
+				title: `${symbolUpper} - ${companyName}`,
+			},
 		};
 	} catch (error: any) {
 		return {

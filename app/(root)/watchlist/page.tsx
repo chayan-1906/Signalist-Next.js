@@ -1,5 +1,11 @@
+import type {Metadata} from "next";
 import {WatchlistTable} from '@/components/WatchlistTable';
 import {getUserWatchlist} from '@/lib/actions/watchlist.actions';
+
+export const metadata: Metadata = {
+	title: 'My Watchlist | Signalist',
+	description: 'Monitor your favorite stocks in real-time. View live prices, track performance, and manage your personalized watchlist all in one place',
+};
 
 async function WatchlistPage() {
 	const watchlist = await getUserWatchlist();

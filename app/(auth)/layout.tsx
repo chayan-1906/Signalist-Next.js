@@ -1,6 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+	title: 'Authentication | Signalist',
+	description: 'Sign in to your Signalist account or create a new one to access personalized stock tracking, watchlist, and real-time market alerts',
+};
 
 async function AuthLayout({children}: { children: React.ReactNode }) {
 

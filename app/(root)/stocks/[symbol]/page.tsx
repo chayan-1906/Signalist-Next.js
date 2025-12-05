@@ -1,7 +1,9 @@
+import type {Metadata} from 'next';
 import {headers} from 'next/headers';
 import {auth} from '@/lib/better-auth/auth';
-import TradingViewWidget from '@/components/TradingViewWidget';
 import {WatchlistButton} from '@/components/WatchlistButton';
+import TradingViewWidget from '@/components/TradingViewWidget';
+import {FINNHUB_API_KEY, FINNHUB_BASE_URL} from '@/lib/config';
 import {getWatchlistSymbolsByEmail} from '@/lib/actions/watchlist.actions';
 import {
 	BASELINE_WIDGET_CONFIG,
@@ -11,6 +13,33 @@ import {
 	SYMBOL_INFO_WIDGET_CONFIG,
 	TECHNICAL_ANALYSIS_WIDGET_CONFIG
 } from '@/lib/constants';
+
+export async function generateMetadata({params}: StockDetailsPageProps): Promise<Metadata> {
+	const {symbol} = await params;
+	const symbolUpper = symbol.toUpperCase();
+
+	try {
+		const profileUrl = `${FINNHUB_BASE_URL}/stock/profile2?symbol=${symbolUpper}&token=${FINNHUB_API_KEY}`;
+		const response = await fetch(profileUrl, {next: {revalidate: 3600}});
+		const profile = response.ok ? await response.json() : {};
+
+		const companyName = profile?.name || symbolUpper;
+
+		return {
+			title: `${symbolUpper} - ${companyName} Stock Analysis | Signalist`,
+			description: `Real-time stock data, charts, and analysis for ${companyName} (${symbolUpper}). Track price movements, market trends, and financial metrics`,
+			openGraph: {
+				title: `${symbolUpper} - ${companyName} Stock Analysis`,
+				description: `Real-time stock data and analysis for ${companyName}`,
+			},
+		};
+	} catch (error: any) {
+		return {
+			title: `${symbolUpper} Stock Analysis | Signalist`,
+			description: `Real-time stock data and analysis for ${symbolUpper}`,
+		};
+	}
+}
 
 async function StockDetails({params}: StockDetailsPageProps) {
 	const {symbol} = await params;

@@ -227,6 +227,16 @@ declare global {
 		threshold: number;
 		changePercent?: number;
 	};
+
+	interface StockErrorPageProps {
+		error: Error & { digest?: string };
+		reset: () => void;
+	}
+
+	interface ErrorPageProps {
+		error: Error & { digest?: string };
+		reset: () => void;
+	}
 }
 
 export {};

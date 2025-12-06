@@ -69,12 +69,14 @@ async function StockDetails({params}: StockDetailsPageProps) {
 				</div>
 
 				{/* Right Column */}
-				<div className="flex flex-col gap-8">
-					<TradingViewWidget scriptUrl={`${scriptUrl}financials.js`} config={COMPANY_FINANCIALS_WIDGET_CONFIG(symbolUpper)} height={464}/>
-					<TradingViewWidget scriptUrl={`${scriptUrl}symbol-profile.js`} config={COMPANY_PROFILE_WIDGET_CONFIG(symbolUpper)} height={440}/>
-					<TradingViewWidget scriptUrl={`${scriptUrl}financials.js`} config={COMPANY_FINANCIALS_WIDGET_CONFIG(symbolUpper)} height={464}/>
-					<WatchlistButton symbol={symbolUpper} company={symbolUpper} isInWatchlist={isInWatchlist}/>
+				<div className={'flex flex-col gap-8'}>
+					<div className={'flex items-center justify-between'}>
+						<WatchlistButton symbol={symbolUpper} company={symbolUpper} isInWatchlist={isInWatchlist}/>
+					</div>
 					<TradingViewWidget scriptUrl={`${scriptUrl}technical-analysis.js`} config={TECHNICAL_ANALYSIS_WIDGET_CONFIG(symbolUpper)} height={400}/>
+					<TradingViewWidget scriptUrl={`${scriptUrl}company-profile.js`} config={COMPANY_PROFILE_WIDGET_CONFIG(symbolUpper)} height={440}/>
+					<TradingViewWidget scriptUrl={`${scriptUrl}financials.js`} config={COMPANY_FINANCIALS_WIDGET_CONFIG(symbolUpper)} height={464}/>
+
 				</div>
 			</div>
 		</div>

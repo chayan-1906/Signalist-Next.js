@@ -3,7 +3,7 @@ import {routes} from "@/lib/routes";
 export const NAV_ITEMS = [
 	{href: routes.homePath, label: 'Dashboard'},
 	{href: routes.searchPath, label: 'Search'},
-	{href: routes.watchListPath, label: 'Watchlist'},
+    {href: routes.watchlistPath, label: 'Watchlist'},
 ];
 
 // Sign-up form select options

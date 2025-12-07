@@ -1,17 +1,19 @@
 import type {Metadata} from 'next';
+import {notFound} from 'next/navigation';
 import {headers} from 'next/headers';
 import {auth} from '@/lib/better-auth/auth';
+import {getStockProfile} from '@/lib/actions/finnhub.actions';
 import {WatchlistButton} from '@/components/WatchlistButton';
 import TradingViewWidget from '@/components/TradingViewWidget';
 import {FINNHUB_API_KEY, FINNHUB_BASE_URL} from '@/lib/config';
 import {getWatchlistSymbolsByEmail} from '@/lib/actions/watchlist.actions';
 import {
-	BASELINE_WIDGET_CONFIG,
-	CANDLE_CHART_WIDGET_CONFIG,
-	COMPANY_FINANCIALS_WIDGET_CONFIG,
-	COMPANY_PROFILE_WIDGET_CONFIG,
-	SYMBOL_INFO_WIDGET_CONFIG,
-	TECHNICAL_ANALYSIS_WIDGET_CONFIG
+    BASELINE_WIDGET_CONFIG,
+    CANDLE_CHART_WIDGET_CONFIG,
+    COMPANY_FINANCIALS_WIDGET_CONFIG,
+    COMPANY_PROFILE_WIDGET_CONFIG,
+    SYMBOL_INFO_WIDGET_CONFIG,
+    TECHNICAL_ANALYSIS_WIDGET_CONFIG
 } from '@/lib/constants';
 
 export async function generateMetadata({params}: StockDetailsPageProps): Promise<Metadata> {
@@ -47,16 +49,21 @@ export async function generateMetadata({params}: StockDetailsPageProps): Promise
 
 async function StockDetails({params}: StockDetailsPageProps) {
 	const {symbol} = await params;
+    const symbolUpper = symbol.toUpperCase();
+
+    // Validate stock exists
+    const profile = await getStockProfile(symbolUpper);
+    if (!profile) {
+        notFound();
+    }
+
 	const scriptUrl = 'https://s3.tradingview.com/external-embedding/embed-widget-';
 
 	// Get user session and watchlist status
 	const session = await auth.api.getSession({headers: await headers()});
 	const userEmail = session?.user?.email || '';
 	const watchlistSymbols = await getWatchlistSymbolsByEmail(userEmail);
-	const isInWatchlist = watchlistSymbols.includes(symbol.toUpperCase());
-
-	// Format symbol for display
-	const symbolUpper = symbol.toUpperCase();
+    const isInWatchlist = watchlistSymbols.includes(symbolUpper);
 
 	return (
 		<div className={'min-h-screen'}>

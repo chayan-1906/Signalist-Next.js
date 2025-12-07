@@ -133,6 +133,21 @@ declare global {
 		marketCapitalization?: number;
 	};
 
+    type StockProfile = {
+        country?: string;
+        currency?: string;
+        exchange?: string;
+        ipo?: string;
+        marketCapitalization?: number;
+        name?: string;
+        phone?: string;
+        shareOutstanding?: number;
+        ticker?: string;
+        weburl?: string;
+        logo?: string;
+        finnhubIndustry?: string;
+    };
+
 	type FinancialsData = {
 		metric?: { [key: string]: number };
 	};

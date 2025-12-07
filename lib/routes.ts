@@ -5,7 +5,7 @@ const routes = {
 	signUpPath: '/sign-up',
 
 	searchPath: '/search',
-	watchListPath: '/watchlist',
+    watchlistPath: '/watchlist',
 
 	stocksDetailsPath: (symbol: string) => `/stocks/${symbol}`,
 };

@@ -177,4 +177,27 @@ const searchStocks = cache(async function searchStocks(query?: string): Promise<
 	}
 });
 
-export {getNews, searchStocks};
+const getStockProfile = cache(async function getStockProfile(symbol: string): Promise<StockProfile | null> {
+    try {
+        if (!FINNHUB_API_KEY) {
+            console.error('FINNHUB API KEY is not configured');
+            return null;
+        }
+
+        const symbolUpper = symbol.toUpperCase();
+        const url = `${FINNHUB_BASE_URL}/stock/profile2?symbol=${encodeURIComponent(symbolUpper)}&token=${FINNHUB_API_KEY}`;
+        const profile = await fetchJSON<StockProfile>(url, 3600);
+
+        // Check if profile has meaningful data
+        if (!profile || !profile.name || Object.keys(profile).length === 0) {
+            return null;
+        }
+
+        return profile;
+    } catch (error: unknown) {
+        console.error('Error fetching stock profile:', error);
+        return null;
+    }
+});
+
+export {getNews, searchStocks, getStockProfile};

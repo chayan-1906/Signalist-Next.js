@@ -4,7 +4,7 @@ import {headers} from "next/headers";
 import {auth} from '@/lib/better-auth/auth';
 import {inngest} from "@/lib/inngest/client";
 
-const signUpWithEmail = async ({email, password, fullName, country, investmentGoals, riskTolerance, preferredIndustry}: SignUpFormData) => {
+const signUpWithEmail = async ({email, password, fullName, country, investmentGoals, riskTolerance, preferredIndustry}: SignUpFormData): Promise<SignUpResponse> => {
 	try {
 		const response = await auth.api.signUpEmail({
 			body: {
@@ -38,7 +38,7 @@ const signUpWithEmail = async ({email, password, fullName, country, investmentGo
 	}
 }
 
-const signInWithEmail = async ({email, password}: SignInFormData) => {
+const signInWithEmail = async ({email, password}: SignInFormData): Promise<SignInResponse> => {
 	try {
 		const response = await auth.api.signInEmail({
 			body: {
@@ -53,7 +53,23 @@ const signInWithEmail = async ({email, password}: SignInFormData) => {
 		};
 	} catch (error: unknown) {
 		console.log('Sign in failed:', error);
-		return {success: false, error: 'Sign in failed'};
+
+        const errorMessage = error instanceof Error ? error.message.toLowerCase() : '';
+        console.log('errorMessage:', errorMessage);
+
+        if (errorMessage.includes('invalid email or password')) {
+            return {
+                success: false,
+                error: 'Invalid email or password. Please try again.',
+                errorType: 'invalid_credentials' as const,
+            };
+        }
+
+        return {
+            success: false,
+            error: 'Sign in failed. Please try again.',
+            errorType: 'unknown' as const,
+        };
 	}
 }
 

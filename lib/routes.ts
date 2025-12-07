@@ -1,13 +1,13 @@
 const routes = {
-	homePath: '/',
+    homePath: '/',
 
-	signInPath: '/sign-in',
-	signUpPath: '/sign-up',
+    signInPath: '/sign-in',
+    signUpPath: '/sign-up',
 
-	searchPath: '/search',
+    searchPath: '/search',
     watchlistPath: '/watchlist',
 
-	stocksDetailsPath: (symbol: string) => `/stocks/${symbol}`,
+    stocksDetailsPath: (symbol: string) => `/stocks/${symbol}`,
 };
 
 export {routes};

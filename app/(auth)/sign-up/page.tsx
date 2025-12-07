@@ -13,74 +13,74 @@ import {CountrySelectField} from "@/components/forms/CountrySelectField";
 import {INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS} from "@/lib/constants";
 
 function SignUpPage() {
-	const router = useRouter();
+    const router = useRouter();
 
-	const {register, handleSubmit, control, formState: {errors, isSubmitting}} = useForm<SignUpFormData>({
-		defaultValues: {
-			fullName: '',
-			email: '',
-			password: '',
-			country: '',
-			investmentGoals: 'Growth',
-			riskTolerance: 'Medium',
-			preferredIndustry: 'Technology',
-		},
-		mode: 'onBlur',
-	});
+    const {register, handleSubmit, control, formState: {errors, isSubmitting}} = useForm<SignUpFormData>({
+        defaultValues: {
+            fullName: '',
+            email: '',
+            password: '',
+            country: '',
+            investmentGoals: 'Growth',
+            riskTolerance: 'Medium',
+            preferredIndustry: 'Technology',
+        },
+        mode: 'onBlur',
+    });
 
-	const onSubmit = async (data: SignUpFormData) => {
-		try {
-			const result = await signUpWithEmail(data);
-			if (result.success) {
-				router.push(routes.homePath);
-			}
-		} catch (error: unknown) {
-			console.error(error);
-			toast.error('Sign up failed', {
-				description: error instanceof Error ? error.message : 'Failed to create an account',
-			});
-		}
-	}
+    const onSubmit = async (data: SignUpFormData) => {
+        try {
+            const result = await signUpWithEmail(data);
+            if (result.success) {
+                router.push(routes.homePath);
+            }
+        } catch (error: unknown) {
+            console.error(error);
+            toast.error('Sign up failed', {
+                description: error instanceof Error ? error.message : 'Failed to create an account',
+            });
+        }
+    }
 
-	return (
-		<>
-			<h1 className={'form-title'}>Sign Up & Personalize</h1>
-			<form onSubmit={handleSubmit(onSubmit)} className={'space-y-5'}>
-				{/** Full name */}
-				<InputField name={'fullName'} label={'Full Name'} placeholder={'John Doe'} register={register} error={errors.fullName} validation={{required: 'Full name is required', minLength: 2}}/>
+    return (
+        <>
+            <h1 className={'form-title'}>Sign Up & Personalize</h1>
+            <form onSubmit={handleSubmit(onSubmit)} className={'space-y-5'}>
+                {/** Full name */}
+                <InputField name={'fullName'} label={'Full Name'} placeholder={'John Doe'} register={register} error={errors.fullName} validation={{required: 'Full name is required', minLength: 2}}/>
 
-				{/** Email */}
-				<InputField name={'email'} label={'Email Address'} placeholder={'john.doe@gmail.com'} register={register} error={errors.email}
-				            validation={{required: 'Email address is required', pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, message: 'Email address is required'}}/>
+                {/** Email */}
+                <InputField name={'email'} label={'Email Address'} placeholder={'john.doe@gmail.com'} register={register} error={errors.email}
+                            validation={{required: 'Email address is required', pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, message: 'Email address is required'}}/>
 
-				{/** Password */}
-				<InputField name={'password'} label={'Password'} placeholder={'Enter a strong password'} type={'password'} register={register} error={errors.password}
-				            validation={{required: 'Password is required', minLength: 8}}/>
+                {/** Password */}
+                <InputField name={'password'} label={'Password'} placeholder={'Enter a strong password'} type={'password'} register={register} error={errors.password}
+                            validation={{required: 'Password is required', minLength: 8}}/>
 
-				{/** Country */}
-				<CountrySelectField name={'country'} label={'Country'} control={control} error={errors.country}/>
+                {/** Country */}
+                <CountrySelectField name={'country'} label={'Country'} control={control} error={errors.country}/>
 
-				{/** Investment Goals */}
-				<SelectField name={'investmentGoals'} label={'Investment Goals'} placeholder={'Select your investment goal'} options={INVESTMENT_GOALS} control={control}
-				             error={errors.investmentGoals}/>
+                {/** Investment Goals */}
+                <SelectField name={'investmentGoals'} label={'Investment Goals'} placeholder={'Select your investment goal'} options={INVESTMENT_GOALS} control={control}
+                             error={errors.investmentGoals}/>
 
-				{/** Risk Tolerance */}
-				<SelectField name={'riskTolerance'} label={'Risk Tolerance'} placeholder={'Select your risk level'} options={RISK_TOLERANCE_OPTIONS} control={control}
-				             error={errors.riskTolerance}/>
+                {/** Risk Tolerance */}
+                <SelectField name={'riskTolerance'} label={'Risk Tolerance'} placeholder={'Select your risk level'} options={RISK_TOLERANCE_OPTIONS} control={control}
+                             error={errors.riskTolerance}/>
 
-				{/** Investment Goals */}
-				<SelectField name={'preferredIndustry'} label={'Preferred Industry'} placeholder={'Select your preferred industry'} options={PREFERRED_INDUSTRIES} control={control}
-				             error={errors.preferredIndustry}/>
+                {/** Investment Goals */}
+                <SelectField name={'preferredIndustry'} label={'Preferred Industry'} placeholder={'Select your preferred industry'} options={PREFERRED_INDUSTRIES} control={control}
+                             error={errors.preferredIndustry}/>
 
 
-				<Button type={'submit'} disabled={isSubmitting} className={'yellow-btn w-full mt-5'}>
-					{isSubmitting ? 'Creating account' : 'Start Your Investing Journey'}
-				</Button>
+                <Button type={'submit'} disabled={isSubmitting} className={'yellow-btn w-full mt-5'}>
+                    {isSubmitting ? 'Creating account' : 'Start Your Investing Journey'}
+                </Button>
 
-				<FooterLink text={'Already have an account?'} linkText={'Sign In'} href={routes.signInPath}/>
-			</form>
-		</>
-	);
+                <FooterLink text={'Already have an account?'} linkText={'Sign In'} href={routes.signInPath}/>
+            </form>
+        </>
+    );
 }
 
 export default SignUpPage;

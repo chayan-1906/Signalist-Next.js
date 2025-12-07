@@ -45,9 +45,7 @@ function WatchlistTable({watchlist: initialWatchlist}: WatchlistTableProps) {
                     <tr key={symbol} className={'border-b border-gray-800 hover:bg-gray-900/50 transition-colors'}>
                         {/** Company */}
                         <td className={'px-4 py-4'}>
-                            <Link href={routes.stocksDetailsPath(symbol)} className={'text-gray-100 hover:text-yellow-500 transition-colors font-medium'}>
-                                {company}
-                            </Link>
+                            <Link href={routes.stocksDetailsPath(symbol)} className={'text-gray-100 hover:text-yellow-500 transition-colors font-medium'}>{company}</Link>
                         </td>
 
                         {/** Symbol */}

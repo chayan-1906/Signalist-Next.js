@@ -2,6 +2,7 @@ import React from "react";
 import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
+import {BASE_URL} from "@/lib/config";
 import {Toaster} from "@/components/ui/sonner";
 
 const geistSans = Geist({
@@ -15,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL(BASE_URL || 'http://localhost:3000'),
     title: 'Signalist',
     description: 'Track real-time stock prices, get personalized alerts and explore detailed company insights',
 };

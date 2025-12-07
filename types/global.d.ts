@@ -265,6 +265,11 @@ declare global {
         success: false;
         error: string;
     };
+
+    type SignOutResponse = {
+        success: boolean;
+        error?: string;
+    };
 }
 
 export {};

@@ -13,7 +13,7 @@ function WatchlistButton({symbol, company, isInWatchlist: initialIsInWatchlist, 
             <Button
                 onClick={() => toggleWatchlist(onWatchlistChange)}
                 disabled={isPending}
-                className={cn('inline-flex items-center justify-center rounded-md p-2 transition-colors hover:bg-accent disabled:pointer-events-none disabled:opacity-50', isInWatchlist && 'text-yellow-500')}
+                className={cn('inline-flex items-center justify-center rounded-md p-2 transition-colors hover:bg-accent disabled:pointer-events-none disabled:opacity-50', isInWatchlist && 'text-destructive hover:text-yellow-500')}
                 title={isInWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
             >
                 {showTrashIcon && isInWatchlist ? (

@@ -73,9 +73,10 @@ const signInWithEmail = async ({email, password}: SignInFormData): Promise<SignI
     }
 }
 
-const signOut = async () => {
+const signOut = async (): Promise<SignOutResponse> => {
     try {
         await auth.api.signOut({headers: await headers()});
+        return {success: true};
     } catch (error: any) {
         console.error('Sign out failed:', error);
         return {

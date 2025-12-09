@@ -33,7 +33,7 @@ const signUpWithEmail = async ({email, password, fullName, country, investmentGo
             data: response,
         };
     } catch (error: unknown) {
-        console.log('Sign up failed:', error);
+        console.error('Sign up failed:', error);
         return {success: false, error: 'Sign up failed'};
     }
 }
@@ -52,10 +52,10 @@ const signInWithEmail = async ({email, password}: SignInFormData): Promise<SignI
             data: response,
         };
     } catch (error: unknown) {
-        console.log('Sign in failed:', error);
+        console.error('Sign in failed:', error);
 
         const errorMessage = error instanceof Error ? error.message.toLowerCase() : '';
-        console.log('errorMessage:', errorMessage);
+        console.error('errorMessage:', errorMessage);
 
         if (errorMessage.includes('invalid email or password')) {
             return {

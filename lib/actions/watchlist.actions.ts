@@ -122,20 +122,20 @@ const getUserWatchlist = async (): Promise<StockWithData[]> => {
         const stocksWithData = await Promise.all(
             watchlistItems.map(async ({userId, symbol, company, addedAt}) => {
                 try {
-                    // Fetch quote data (current price, change)
-                    const quoteUrl = `${FINNHUB_BASE_URL}/quote?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
-                    const quoteResponse = await fetch(quoteUrl, {next: {revalidate: 60}});
-                    const quote: QuoteData = quoteResponse.ok ? await quoteResponse.json() : {};
+                    // Fetch all data in parallel for better performance
+                    const [quote, profile, financials] = await Promise.all([
+                        fetch(`${FINNHUB_BASE_URL}/quote?symbol=${symbol}&token=${FINNHUB_API_KEY}`, {
+                            next: {revalidate: 60}
+                        }).then((res) => res.ok ? res.json() as Promise<QuoteData> : {} as QuoteData),
 
-                    // Fetch company profile (market cap)
-                    const profileUrl = `${FINNHUB_BASE_URL}/stock/profile2?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
-                    const profileResponse = await fetch(profileUrl, {next: {revalidate: 3600}});
-                    const profile: ProfileData = profileResponse.ok ? await profileResponse.json() : {};
+                        fetch(`${FINNHUB_BASE_URL}/stock/profile2?symbol=${symbol}&token=${FINNHUB_API_KEY}`, {
+                            next: {revalidate: 3600}
+                        }).then((res) => res.ok ? res.json() as Promise<ProfileData> : {} as ProfileData),
 
-                    // Fetch basic financials (P/E ratio)
-                    const financialsUrl = `${FINNHUB_BASE_URL}/stock/metric?symbol=${symbol}&metric=all&token=${FINNHUB_API_KEY}`;
-                    const financialsResponse = await fetch(financialsUrl, {next: {revalidate: 3600}});
-                    const financials: FinancialsData = financialsResponse.ok ? await financialsResponse.json() : {};
+                        fetch(`${FINNHUB_BASE_URL}/stock/metric?symbol=${symbol}&metric=all&token=${FINNHUB_API_KEY}`, {
+                            next: {revalidate: 3600}
+                        }).then((res) => res.ok ? res.json() as Promise<FinancialsData> : {} as FinancialsData),
+                    ]);
 
                     const currentPrice = quote?.c ?? 0;
                     const changePercent = quote?.dp ?? 0;

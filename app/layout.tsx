@@ -1,5 +1,6 @@
 import React from "react";
 import type {Metadata} from "next";
+import {Analytics} from '@vercel/analytics/react';
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import {BASE_URL} from "@/lib/config";
@@ -26,6 +27,7 @@ function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
         <html lang={'en'} className={'dark'}>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
+        <Analytics/>
         <Toaster/>
         </body>
         </html>

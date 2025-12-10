@@ -1,5 +1,10 @@
 import type {NextConfig} from "next";
 
+// Bundle analyzer - only enabled when ANALYZE=true environment variable is set
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+    enabled: process.env.ANALYZE === "true",
+});
+
 const nextConfig: NextConfig = {
     async headers() {
         return [
@@ -32,4 +37,4 @@ const nextConfig: NextConfig = {
     },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

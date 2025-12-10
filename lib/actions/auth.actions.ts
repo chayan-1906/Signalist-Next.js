@@ -6,6 +6,26 @@ import {inngest} from "@/lib/inngest/client";
 
 const signUpWithEmail = async ({email, password, fullName, country, investmentGoals, riskTolerance, preferredIndustry}: SignUpFormData): Promise<SignUpResponse> => {
     try {
+        if (!email || typeof email !== 'string' || email.trim().length === 0) {
+            return {success: false, error: 'Email is required'};
+        }
+
+        if (!email.includes('@')) {
+            return {success: false, error: 'Invalid email format'};
+        }
+
+        if (!password || typeof password !== 'string' || password.length < 8) {
+            return {success: false, error: 'Password must be at least 8 characters'};
+        }
+
+        if (!fullName || typeof fullName !== 'string' || fullName.trim().length === 0) {
+            return {success: false, error: 'Full name is required'};
+        }
+
+        if (fullName.length > 100) {
+            return {success: false, error: 'Full name must be 100 characters or less'};
+        }
+
         const response = await auth.api.signUpEmail({
             body: {
                 email,
@@ -40,6 +60,18 @@ const signUpWithEmail = async ({email, password, fullName, country, investmentGo
 
 const signInWithEmail = async ({email, password}: SignInFormData): Promise<SignInResponse> => {
     try {
+        if (!email || typeof email !== 'string' || email.trim().length === 0) {
+            return {success: false, error: 'Email is required', errorType: 'invalid_credentials' as const};
+        }
+
+        if (!email.includes('@')) {
+            return {success: false, error: 'Invalid email format', errorType: 'invalid_credentials' as const};
+        }
+
+        if (!password || typeof password !== 'string' || password.length === 0) {
+            return {success: false, error: 'Password is required', errorType: 'invalid_credentials' as const};
+        }
+
         const response = await auth.api.signInEmail({
             body: {
                 email,

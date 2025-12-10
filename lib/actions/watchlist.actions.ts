@@ -43,6 +43,22 @@ const getWatchlistSymbolsByEmail = async (email: string): Promise<string[]> => {
 
 const addToWatchlist = async (symbol: string, company: string): Promise<{ success: boolean; message: string }> => {
     try {
+        if (!symbol || typeof symbol !== 'string' || symbol.trim().length === 0) {
+            return {success: false, message: 'Symbol is required'};
+        }
+
+        if (symbol.length > 5) {
+            return {success: false, message: 'Symbol must be 5 characters or less'};
+        }
+
+        if (!company || typeof company !== 'string' || company.trim().length === 0) {
+            return {success: false, message: 'Company name is required'};
+        }
+
+        if (company.length > 200) {
+            return {success: false, message: 'Company name must be 200 characters or less'};
+        }
+
         const session = await auth.api.getSession({headers: await headers()});
 
         if (!session?.user) {
@@ -76,6 +92,14 @@ const addToWatchlist = async (symbol: string, company: string): Promise<{ succes
 
 const removeFromWatchlist = async (symbol: string): Promise<{ success: boolean; message: string }> => {
     try {
+        if (!symbol || typeof symbol !== 'string' || symbol.trim().length === 0) {
+            return {success: false, message: 'Symbol is required'};
+        }
+
+        if (symbol.length > 5) {
+            return {success: false, message: 'Symbol must be 5 characters or less'};
+        }
+
         const session = await auth.api.getSession({headers: await headers()});
 
         if (!session?.user) {

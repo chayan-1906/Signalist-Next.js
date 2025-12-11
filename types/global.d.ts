@@ -1,3 +1,5 @@
+import {Control, UseFormRegister} from "react-hook-form";
+
 declare global {
     type SignInFormData = {
         email: string;
@@ -270,6 +272,10 @@ declare global {
         success: boolean;
         error?: string;
     };
+
+    interface SearchModalProps {
+        initialStocks: StockWithWatchlistStatus[];
+    }
 }
 
 export {};

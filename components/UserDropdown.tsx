@@ -10,7 +10,7 @@ import {signOut} from "@/lib/actions/auth.actions";
 import {Avatar, AvatarFallback} from "@/components/ui/avatar";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 
-function UserDropdown({user, initialStocks}: { user: User; initialStocks: StockWithWatchlistStatus[] }) {
+function UserDropdown({user}: { user: User }) {
     const router = useRouter();
 
     const randomBgColors = [
@@ -61,7 +61,7 @@ function UserDropdown({user, initialStocks}: { user: User; initialStocks: StockW
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className={'hidden sm:block bg-gray-600'}/>
                 <nav className={'sm:hidden'}>
-                    <NavItems initialStocks={initialStocks}/>
+                    <NavItems/>
                 </nav>
             </DropdownMenuContent>
         </DropdownMenu>

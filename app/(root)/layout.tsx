@@ -3,7 +3,7 @@ import {headers} from "next/headers";
 import {Header} from "@/components/Header";
 import {auth} from "@/lib/better-auth/auth";
 
-async function Layout({children}: { children: React.ReactNode }) {
+async function Layout({children, modal}: { children: React.ReactNode; modal?: React.ReactNode }) {
     const session = await auth.api.getSession({headers: await headers()});
 
     if (!session?.user) {
@@ -24,6 +24,9 @@ async function Layout({children}: { children: React.ReactNode }) {
             <div className={'container py-10'}>
                 {children}
             </div>
+
+            {/** Modal slot for intercepting routes */}
+            {modal}
         </main>
     );
 }

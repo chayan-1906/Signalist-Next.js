@@ -12,3 +12,5 @@ export const NODEMAILER_PASSWORD = process.env.NODEMAILER_PASSWORD;
 
 export const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1';
 export const FINNHUB_API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
+
+export const SUPPORT_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;

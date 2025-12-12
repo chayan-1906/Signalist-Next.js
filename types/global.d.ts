@@ -1,232 +1,281 @@
+import {Control, UseFormRegister} from "react-hook-form";
+
 declare global {
-	type SignInFormData = {
-		email: string;
-		password: string;
-	};
+    type SignInFormData = {
+        email: string;
+        password: string;
+    };
 
-	type SignUpFormData = {
-		fullName: string;
-		email: string;
-		password: string;
-		country: string;
-		investmentGoals: string;
-		riskTolerance: string;
-		preferredIndustry: string;
-	};
+    type SignUpFormData = {
+        fullName: string;
+        email: string;
+        password: string;
+        country: string;
+        investmentGoals: string;
+        riskTolerance: string;
+        preferredIndustry: string;
+    };
 
-	type Country = {
-		value: string;
-		label: string;
-	};
+    type Country = {
+        value: string;
+        label: string;
+    };
 
-	type CountrySelectProps = {
-		name: string;
-		label: string;
-		control: Control<any>;
-		error?: FieldError;
-		required?: boolean;
-	};
+    type CountrySelectProps = {
+        name: string;
+        label: string;
+        control: Control<any>;
+        error?: FieldError;
+        required?: boolean;
+    };
 
-	type FormInputProps = {
-		name: string;
-		label: string;
-		placeholder: string;
-		type?: string;
-		register: UseFormRegister;
-		error?: FieldError;
-		validation?: RegisterOptions;
-		disabled?: boolean;
-		value?: string;
-	};
+    type FormInputProps = {
+        name: string;
+        label: string;
+        placeholder: string;
+        type?: string;
+        register: UseFormRegister;
+        error?: FieldError;
+        validation?: RegisterOptions;
+        disabled?: boolean;
+        value?: string;
+    };
 
-	type Option = {
-		value: string;
-		label: string;
-	};
+    type Option = {
+        value: string;
+        label: string;
+    };
 
-	type SelectFieldProps = {
-		name: string;
-		label: string;
-		placeholder: string;
-		options: readonly Option[];
-		control: Control;
-		error?: FieldError;
-		required?: boolean;
-	};
+    type SelectFieldProps = {
+        name: string;
+        label: string;
+        placeholder: string;
+        options: readonly Option[];
+        control: Control;
+        error?: FieldError;
+        required?: boolean;
+    };
 
-	type FooterLinkProps = {
-		text: string;
-		linkText: string;
-		href: string;
-	};
+    type FooterLinkProps = {
+        text: string;
+        linkText: string;
+        href: string;
+    };
 
-	type SearchCommandProps = {
-		renderAs?: 'button' | 'text';
-		label?: string;
-		initialStocks: StockWithWatchlistStatus[];
-	};
+    type SearchCommandProps = {
+        renderAs?: 'button' | 'text';
+        label?: string;
+        initialStocks: StockWithWatchlistStatus[];
+    };
 
-	type WelcomeEmailData = {
-		email: string;
-		name: string;
-		intro: string;
-	};
+    type WelcomeEmailData = {
+        email: string;
+        name: string;
+        intro: string;
+    };
 
-	type User = {
-		id: string;
-		name: string;
-		email: string;
-	};
+    type User = {
+        id: string;
+        name: string;
+        email: string;
+    };
 
-	type Stock = {
-		symbol: string;
-		name: string;
-		exchange: string;
-		type: string;
-	};
+    type Stock = {
+        symbol: string;
+        name: string;
+        exchange: string;
+        type: string;
+    };
 
-	type StockWithWatchlistStatus = Stock & {
-		isInWatchlist: boolean;
-	};
+    type StockWithWatchlistStatus = Stock & {
+        isInWatchlist: boolean;
+    };
 
-	type FinnhubFetchOptions = {
-		cache?: RequestCache;
-		next?: {
-			revalidate?: number;
-		};
-	};
+    type FinnhubFetchOptions = {
+        cache?: RequestCache;
+        next?: {
+            revalidate?: number;
+        };
+    };
 
-	type FinnhubSearchResult = {
-		symbol: string;
-		description: string;
-		displaySymbol?: string;
-		type: string;
-	};
+    type FinnhubSearchResult = {
+        symbol: string;
+        description: string;
+        displaySymbol?: string;
+        type: string;
+    };
 
-	type FinnhubSearchResponse = {
-		count: number;
-		result: FinnhubSearchResult[];
-	};
+    type FinnhubSearchResponse = {
+        count: number;
+        result: FinnhubSearchResult[];
+    };
 
-	type StockDetailsPageProps = {
-		params: Promise<{
-			symbol: string;
-		}>;
-	};
+    type StockDetailsPageProps = {
+        params: Promise<{
+            symbol: string;
+        }>;
+    };
 
-	type WatchlistButtonProps = {
-		symbol: string;
-		company: string;
-		isInWatchlist: boolean;
-		showTrashIcon?: boolean;
-		type?: 'button' | 'icon';
-		onWatchlistChange?: (symbol: string, isAdded: boolean) => void;
-	};
+    type WatchlistButtonProps = {
+        symbol: string;
+        company: string;
+        isInWatchlist: boolean;
+        showTrashIcon?: boolean;
+        type?: 'button' | 'icon';
+        onWatchlistChange?: (symbol: string, isAdded: boolean) => void;
+    };
 
-	type QuoteData = {
-		c?: number;
-		dp?: number;
-	};
+    type QuoteData = {
+        c?: number;
+        dp?: number;
+    };
 
-	type ProfileData = {
-		name?: string;
-		marketCapitalization?: number;
-	};
+    type ProfileData = {
+        name?: string;
+        marketCapitalization?: number;
+    };
 
-	type FinancialsData = {
-		metric?: { [key: string]: number };
-	};
+    type StockProfile = {
+        country?: string;
+        currency?: string;
+        exchange?: string;
+        ipo?: string;
+        marketCapitalization?: number;
+        name?: string;
+        phone?: string;
+        shareOutstanding?: number;
+        ticker?: string;
+        weburl?: string;
+        logo?: string;
+        finnhubIndustry?: string;
+    };
 
-	type SelectedStock = {
-		symbol: string;
-		company: string;
-		currentPrice?: number;
-	};
+    type FinancialsData = {
+        metric?: { [key: string]: number };
+    };
 
-	type WatchlistTableProps = {
-		watchlist: StockWithData[];
-	};
+    type SelectedStock = {
+        symbol: string;
+        company: string;
+        currentPrice?: number;
+    };
 
-	type StockWithData = {
-		userId: string;
-		symbol: string;
-		company: string;
-		addedAt: Date;
-		currentPrice?: number;
-		changePercent?: number;
-		priceFormatted?: string;
-		changeFormatted?: string;
-		marketCap?: string;
-		peRatio?: string;
-	};
+    type WatchlistTableProps = {
+        watchlist: StockWithData[];
+    };
 
-	type AlertsListProps = {
-		alertData: Alert[] | undefined;
-	};
+    type StockWithData = {
+        userId: string;
+        symbol: string;
+        company: string;
+        addedAt: Date;
+        currentPrice?: number;
+        changePercent?: number;
+        priceFormatted?: string;
+        changeFormatted?: string;
+        marketCap?: string;
+        peRatio?: string;
+    };
 
-	type MarketNewsArticle = {
-		id: number;
-		headline: string;
-		summary: string;
-		source: string;
-		url: string;
-		datetime: number;
-		category: string;
-		related: string;
-		image?: string;
-	};
+    type AlertsListProps = {
+        alertData: Alert[] | undefined;
+    };
 
-	type WatchlistNewsProps = {
-		news?: MarketNewsArticle[];
-	};
+    type MarketNewsArticle = {
+        id: number;
+        headline: string;
+        summary: string;
+        source: string;
+        url: string;
+        datetime: number;
+        category: string;
+        related: string;
+        image?: string;
+    };
 
-	type SearchCommandProps = {
-		open?: boolean;
-		setOpen?: (open: boolean) => void;
-		renderAs?: 'button' | 'text';
-		buttonLabel?: string;
-		buttonVariant?: 'primary' | 'secondary';
-		className?: string;
-	};
+    type WatchlistNewsProps = {
+        news?: MarketNewsArticle[];
+    };
 
-	type AlertData = {
-		symbol: string;
-		company: string;
-		alertName: string;
-		alertType: 'upper' | 'lower';
-		threshold: string;
-	};
+    type SearchCommandProps = {
+        open?: boolean;
+        setOpen?: (open: boolean) => void;
+        renderAs?: 'button' | 'text';
+        buttonLabel?: string;
+        buttonVariant?: 'primary' | 'secondary';
+        className?: string;
+    };
 
-	type AlertModalProps = {
-		alertId?: string;
-		alertData?: AlertData;
-		action?: string;
-		open: boolean;
-		setOpen: (open: boolean) => void;
-	};
+    type AlertData = {
+        symbol: string;
+        company: string;
+        alertName: string;
+        alertType: 'upper' | 'lower';
+        threshold: string;
+    };
 
-	type RawNewsArticle = {
-		id: number;
-		headline?: string;
-		summary?: string;
-		source?: string;
-		url?: string;
-		datetime?: number;
-		image?: string;
-		category?: string;
-		related?: string;
-	};
+    type AlertModalProps = {
+        alertId?: string;
+        alertData?: AlertData;
+        action?: string;
+        open: boolean;
+        setOpen: (open: boolean) => void;
+    };
 
-	type Alert = {
-		id: string;
-		symbol: string;
-		company: string;
-		alertName: string;
-		currentPrice: number;
-		alertType: 'upper' | 'lower';
-		threshold: number;
-		changePercent?: number;
-	};
+    type RawNewsArticle = {
+        id: number;
+        headline?: string;
+        summary?: string;
+        source?: string;
+        url?: string;
+        datetime?: number;
+        image?: string;
+        category?: string;
+        related?: string;
+    };
+
+    type Alert = {
+        id: string;
+        symbol: string;
+        company: string;
+        alertName: string;
+        currentPrice: number;
+        alertType: 'upper' | 'lower';
+        threshold: number;
+        changePercent?: number;
+    };
+
+    interface StockErrorPageProps {
+        error: Error & { digest?: string };
+        reset: () => void;
+    }
+
+    interface ErrorPageProps {
+        error: Error & { digest?: string };
+        reset: () => void;
+    }
+
+    type AuthErrorType = 'user_not_found' | 'invalid_credentials' | 'unknown';
+
+    type SignInResponse = { success: true; data: any; } | {
+        success: false;
+        error: string;
+        errorType: AuthErrorType;
+    };
+
+    type SignUpResponse = { success: true; data: any; } | {
+        success: false;
+        error: string;
+    };
+
+    type SignOutResponse = {
+        success: boolean;
+        error?: string;
+    };
+
+    interface SearchModalProps {
+        initialStocks: StockWithWatchlistStatus[];
+    }
 }
 
 export {};

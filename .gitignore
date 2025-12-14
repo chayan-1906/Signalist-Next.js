@@ -93,3 +93,6 @@ storybook-static
 # AI
 .claude
 CLAUDE.md
+
+# Documenation
+SIGNALIST_DOCUMENTATION.md

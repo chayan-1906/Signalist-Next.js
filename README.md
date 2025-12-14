@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📈 Signalist — AI-powered Real-time Stock Tracker
+# 📈 Signalist — AI-Powered Real-time Stock Tracker
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
